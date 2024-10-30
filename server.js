@@ -1,9 +1,9 @@
 import express from "express";
-import { PORT, mongoDBURL } from "./config.js";
 import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import jobsRoute from "./routes/jobsRoute.js";
+import "dotenv/config";
 
 const app = express();
 
@@ -20,11 +20,13 @@ app.get("/", (req, res) => {
 
 // establish a connection to the database
 mongoose
-    .connect(mongoDBURL)
+    .connect(process.env.MONGODB_URL)
     .then(() => {
         console.log("Server connected to database");
-        app.listen(PORT, () => {
-            console.log(`Server listening on port: http://localhost:${PORT}`);
+        app.listen(process.env.PORT, () => {
+            console.log(
+                `Server listening on port: http://localhost:${process.env.PORT}`
+            );
         });
     })
     .catch((err) => {
